@@ -86,11 +86,25 @@ setLegend(
 
 setSolids([])
 
-let levelArr = [];
+
+
+function fillPlayerMap(x,y) {
+    newPlayerMap = []
+    for (let i = 0; i < y; i++) {
+        let row = []
+        
+        for (let j = 0; j < x; j++) {
+            row.push(false)
+        }
+      newPlayerMap.push(row)
+    }
+    newPlayerMap[0][0] = true
+    return newPlayerMap
+}
 
 function setLevel(x, y) {
     const options = ["r", "g", "b", "y"];
-
+    
     let newLevel = [];
 
     for (let i = 0; i < y; i++) {
@@ -108,7 +122,21 @@ function setLevel(x, y) {
     return newLevel
 }
 
-
+function testNeighbor(x,y, level, playerMap, screenX, screenY) {
+    if (x <= screenX - 2 && level[x + 1][y] == level[x][y]) {
+        playerMap[x + 1][y] = true
+    }
+    if (x >= 1 && level[x - 1][y] == level[x][y]) {
+        playerMap[x - 1][y] = true
+    }
+    if ( y <= screenY - 2 && level[x][y + 1] == level[x][y]) {
+        playerMap[x][y + 1] = true
+    }
+    if (y >= 1 && level[x][y - 1] == level[x][y] ) {
+        playerMap[x][y - 1] = true
+    }
+    return playerMap
+}
 
 function drawLevel(level) {
     let levelString = ""
@@ -122,7 +150,23 @@ function drawLevel(level) {
     setMap(levelString)
 }
 
-drawLevel(setLevel(20, 16))
+let screenX = 20
+let screenY = 16
+
+let playerMap = []
+
+level = setLevel(screenX, screenY)
+drawLevel(level)
+playerMap = fillPlayerMap(screenX,screenY)
+
+testNeighbor(0,0, level, playerMap, screenX, screenY)
+
+console.log(playerMap[1])
+
+
+
+
+
 
 
 
