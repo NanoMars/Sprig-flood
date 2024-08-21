@@ -103,16 +103,16 @@ function fillPlayerMap(x,y) {
 }
 
 function setLevel(x, y) {
-    const options = ["r", "g", "b", "y"];
+    const options = ["r", "g", "b", "y"]
     
-    let newLevel = [];
+    let newLevel = []
 
     for (let i = 0; i < y; i++) {
         let row = []
 
         for (let j = 0; j < x; j++) {
-            let randomPick = Math.floor(Math.random() * options.length);
-            let picked = options[randomPick];
+            let randomPick = Math.floor(Math.random() * options.length)
+            let picked = options[randomPick]
 
             row.push(picked)
         }
@@ -150,8 +150,25 @@ function drawLevel(level) {
     setMap(levelString)
 }
 
-function testAllPlayerNeighbors(playerMap) {
-    // test all player neighbors!
+function testAllPlayerNeighbors(playerMap, level, screenX, screenY) {
+    for (let i = 0; i < playerMap.length; i++) {
+        for (let j = 0; j < playerMap[i].length; j++) {
+            if (playerMap[i][j] == true) {
+              playerMap = testNeighbor(i, j, level, playerMap, screenX, screenY);
+            }
+        }
+    }
+}
+
+function drawPlayerMap(playerMap, level, colour) {
+    for (let i = 0; i < playerMap.length; i++) {
+        for (let j = 0; j < playerMap[i].length; j++) {
+            if (playerMap[i][j] == true) {
+                level[i][j] = colour
+                console.log(level[i][j])
+            }
+        }
+    }
 }
 
 let screenX = 20
@@ -160,25 +177,20 @@ let screenY = 16
 let playerMap = []
 
 level = setLevel(screenX, screenY)
-drawLevel(level)
+
 playerMap = fillPlayerMap(screenX,screenY)
 
-testNeighbor(0,0, level, playerMap, screenX, screenY)
-
-console.log(playerMap[1])
-
-
-
-
-
-
-
-
+drawPlayerMap(playerMap, level, "g")
+drawLevel(level)
 
 onInput("s", () => {
-  
+    drawPlayerMap(playerMap, level, "g")
+    drawLevel(level)
+    //testAllPlayerNeighbors(playerMap, level, screenX, screenY)
+    drawPlayerMap(playerMap, level, "g")
+    drawLevel(level)
 })
 
 afterInput(() => {
   
-})
+})  
