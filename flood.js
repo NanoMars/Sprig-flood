@@ -150,6 +150,10 @@ function drawLevel(level) {
     setMap(levelString)
 }
 
+function testAllPlayerNeighbors(playerMap) {
+    // test all player neighbors!
+}
+
 let screenX = 20
 let screenY = 16
 
@@ -162,6 +166,7 @@ playerMap = fillPlayerMap(screenX,screenY)
 testNeighbor(0,0, level, playerMap, screenX, screenY)
 
 console.log(playerMap[1])
+
 
 
 
