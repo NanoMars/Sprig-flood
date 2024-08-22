@@ -12,6 +12,7 @@ const red = "r"
 const green = "g"
 const blue = "b"
 const yellow = "y"
+const black = "x"
 
 setLegend(
   [ red, bitmap`
@@ -81,7 +82,24 @@ setLegend(
 6666666666666666
 6666666666666666
 6666666666666666
-6666666666666666` ]
+6666666666666666` ],
+  [ black, bitmap`
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000
+0000000000000000` ]
 )
 
 function fillPlayerMap(x,y) {
@@ -126,7 +144,7 @@ function testNeighbor(x, y, level, Plm, screenX, screenY) {
   if (x >= 1 && level[x - 1] && level[x - 1][y] == level[x][y]) {
     Plm[x - 1][y] = true;
   }
-  if (y <= screenY && level[x][y + 1] && level[x][y + 1] == level[x][y]) {
+  if (y <= screenY - 0 && level[x][y + 1] && level[x][y + 1] == level[x][y]) {
     Plm[x][y + 1] = true;
   }
   if (y >= 1 && level[x][y - 1] && level[x][y - 1] == level[x][y]) {
@@ -139,13 +157,20 @@ function testNeighbor(x, y, level, Plm, screenX, screenY) {
   return Plm;
 }
 
-function drawLevel(level) {
+function drawLevel(level, steps) {
     let levelString = ""
+    clearText()
+    addText(steps.toString(), { 
+      x: 17,
+      y: 1,
+      color: "2"
+    })
+    
 
     for (let i = 0; i < level.length; i++) {
         let rowString = level[i].join("")
 
-        levelString += rowString + "\n"
+        levelString += rowString + "xx"+ "\n"
     }
 
     setMap(levelString)
@@ -172,65 +197,58 @@ function drawPlayerMap(playerMap, level, colour) {
     }
 }
 
-function printPlayerMap(playerMap) {
-    for (let i = 0; i < playerMap.length; i++) {
-        console.log(playerMap[i])
-    }
+function buttonPressed(colour) {
+    drawPlayerMap(playerMap, level, colour)
+    drawLevel(level, steps)
+    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
+    drawPlayerMap(playerMap, level, colour)
+    drawLevel(level, steps)
 }
 
-function printLevel(level) {
-    for (let i = 0; i < level.length; i++) {
-        console.log(level[i])
-    }
-}
 
-let screenX = 10
+
+let screenX = 8
 let screenY = 8
 
 let playerMap = []
 playerMap.length = 0
 playerMap = fillPlayerMap(screenX,screenY)
 
+
+
 let level = []
 level.length = 0
+
+let steps = 15
 
 level = setLevel(screenX, screenY)
 
 
 drawPlayerMap(playerMap, level, "g")
-drawLevel(level)
-printLevel(level)
+drawLevel(level, steps)
+
+function resetGame() {
+    playerMap = fillPlayerMap(screenX, screenY)
+    level = setLevel(screenX, screenY)
+    drawPlayerMap(playerMap, level, "g")
+    drawLevel(level, steps)
+    steps = random(10, 20)
+}
 
 onInput("w", () => {
-    drawPlayerMap(playerMap, level, "y")
-    drawLevel(level)
-    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
-    drawPlayerMap(playerMap, level, "y")
-    drawLevel(level)
+    buttonPressed("y")
 })
 
 onInput("a", () => {
-    drawPlayerMap(playerMap, level, "b")
-    drawLevel(level)
-    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
-    drawPlayerMap(playerMap, level, "b")
-    drawLevel(level)
+    buttonPressed("b")
 })
 
 onInput("s", () => {
-    drawPlayerMap(playerMap, level, "g")
-    drawLevel(level)
-    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
-    drawPlayerMap(playerMap, level, "g")
-    drawLevel(level)
+    buttonPressed("g")
 })
 
 onInput("d", () => {
-    drawPlayerMap(playerMap, level, "r")
-    drawLevel(level)
-    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
-    drawPlayerMap(playerMap, level, "r")
-    drawLevel(level)
+    buttonPressed("r")
 })
 
 afterInput(() => {
