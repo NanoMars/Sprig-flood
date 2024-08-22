@@ -84,15 +84,8 @@ setLegend(
 6666666666666666` ]
 )
 
-setSolids([])
-
-
-
 function fillPlayerMap(x,y) {
     let newPlayerMap = [];
-    for (let i = 0; i < playerMap.length; i++) {
-        newPlayerMap[i] = [...playerMap[i]];
-    }
     for (let i = 0; i < y; i++) {
         let row = []
         
@@ -126,24 +119,24 @@ function setLevel(x, y) {
     return newLevel
 }
 
-function testNeighbor(x,y, level, Plm, screenX, screenY) {
-    if (x <= screenX - 2 && level[x + 1][y] == level[x][y]) {
-        Plm[x + 1][y] = true
-    }
-    if (x >= 1 && level[x - 1][y] == level[x][y]) {
-        Plm[x - 1][y] = true
-    }
-    if ( y <= screenY - 2 && level[x][y + 1] == level[x][y]) {
-        Plm[x][y + 1] = true
-    }
-    if (y >= 1 && level[x][y - 1] == level[x][y] ) {
-        Plm[x][y - 1] = true
-    }
+function testNeighbor(x, y, level, Plm, screenX, screenY) {
+  if (x <= screenX - 2 && level[x + 1] && level[x + 1][y] == level[x][y]) {
+    Plm[x + 1][y] = true;
+  }
+  if (x >= 1 && level[x - 1] && level[x - 1][y] == level[x][y]) {
+    Plm[x - 1][y] = true;
+  }
+  if (y <= screenY && level[x][y + 1] && level[x][y + 1] == level[x][y]) {
+    Plm[x][y + 1] = true;
+  }
+  if (y >= 1 && level[x][y - 1] && level[x][y - 1] == level[x][y]) {
+    Plm[x][y - 1] = true;
+  }
 
-    for (let i = 0; i < Plm.length; i++) {
-      console.log(Plm[i]);
-    }
-    return Plm
+  for (let i = 0; i < Plm.length; i++) {
+    console.log(Plm[i]);
+  }
+  return Plm;
 }
 
 function drawLevel(level) {
@@ -191,12 +184,15 @@ function printLevel(level) {
     }
 }
 
-let screenX = 20
-let screenY = 16
+let screenX = 10
+let screenY = 8
 
 let playerMap = []
 playerMap.length = 0
 playerMap = fillPlayerMap(screenX,screenY)
+
+let level = []
+level.length = 0
 
 level = setLevel(screenX, screenY)
 
@@ -205,14 +201,36 @@ drawPlayerMap(playerMap, level, "g")
 drawLevel(level)
 printLevel(level)
 
+onInput("w", () => {
+    drawPlayerMap(playerMap, level, "y")
+    drawLevel(level)
+    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
+    drawPlayerMap(playerMap, level, "y")
+    drawLevel(level)
+})
+
+onInput("a", () => {
+    drawPlayerMap(playerMap, level, "b")
+    drawLevel(level)
+    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
+    drawPlayerMap(playerMap, level, "b")
+    drawLevel(level)
+})
+
 onInput("s", () => {
     drawPlayerMap(playerMap, level, "g")
     drawLevel(level)
     testAllPlayerNeighbors(playerMap, level, screenX, screenY)
     drawPlayerMap(playerMap, level, "g")
     drawLevel(level)
-    printLevel(level)
+})
 
+onInput("d", () => {
+    drawPlayerMap(playerMap, level, "r")
+    drawLevel(level)
+    testAllPlayerNeighbors(playerMap, level, screenX, screenY)
+    drawPlayerMap(playerMap, level, "r")
+    drawLevel(level)
 })
 
 afterInput(() => {
