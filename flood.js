@@ -165,7 +165,26 @@ function drawLevel(level, steps) {
       y: 1,
       color: "2"
     })
-    
+    addText("W", { 
+      x: 17,
+      y: 4,
+      color: "6"
+    })
+    addText("A", { 
+      x: 17,
+      y: 6,
+      color: "5"
+    })
+    addText("S", { 
+      x: 17,
+      y: 8,
+      color: "4"
+    })
+    addText("D", { 
+      x: 17,
+      y: 10,
+      color: "3"
+    })
 
     for (let i = 0; i < level.length; i++) {
         let rowString = level[i].join("")
@@ -197,12 +216,21 @@ function drawPlayerMap(playerMap, level, colour) {
     }
 }
 
+let steps = 15
+
 function buttonPressed(colour) {
     drawPlayerMap(playerMap, level, colour)
     drawLevel(level, steps)
     testAllPlayerNeighbors(playerMap, level, screenX, screenY)
     drawPlayerMap(playerMap, level, colour)
     drawLevel(level, steps)
+    
+    steps -= 1
+    steps = Math.max(0, steps)
+
+    if (steps == 0) {
+        resetGame()
+    }
 }
 
 
@@ -219,7 +247,7 @@ playerMap = fillPlayerMap(screenX,screenY)
 let level = []
 level.length = 0
 
-let steps = 15
+
 
 level = setLevel(screenX, screenY)
 
@@ -231,8 +259,9 @@ function resetGame() {
     playerMap = fillPlayerMap(screenX, screenY)
     level = setLevel(screenX, screenY)
     drawPlayerMap(playerMap, level, "g")
+    steps = Math.floor(Math.random() * 10 + 10)
     drawLevel(level, steps)
-    steps = random(10, 20)
+    
 }
 
 onInput("w", () => {
@@ -249,6 +278,22 @@ onInput("s", () => {
 
 onInput("d", () => {
     buttonPressed("r")
+})
+
+onInput("i", () => {
+    resetGame()
+})
+
+onInput("j", () => {
+    resetGame()
+})
+
+onInput("k", () => {
+    resetGame()
+})
+
+onInput("l", () => {
+    resetGame()
 })
 
 afterInput(() => {
