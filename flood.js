@@ -14,6 +14,8 @@ const blue = "b"
 const yellow = "y"
 const black = "x"
 
+colours = [red, green, blue, yellow]
+
 setLegend(
   [ red, bitmap`
 3333333333333333
@@ -117,7 +119,7 @@ function fillPlayerMap(x,y) {
 }
 
 function setLevel(x, y) {
-    const options = ["r", "g", "b", "y"];
+    const options = colours
     
     let newLevel = [];
     newLevel.length = 0
@@ -218,7 +220,7 @@ function drawPlayerMap(playerMap, level, colour) {
 
 let steps = 15
 
-function buttonPressed(colour) {
+function changeFlood(colour) {
     drawPlayerMap(playerMap, level, colour)
     drawLevel(level, steps)
     testAllPlayerNeighbors(playerMap, level, screenX, screenY)
@@ -229,6 +231,82 @@ function buttonPressed(colour) {
     steps = Math.max(0, steps)
 
     if (steps == 0) {
+        gameOver()
+    }
+}
+
+let gameIsOver = false
+
+function pressAnyKey() {
+    if (gameIsOver == false) {
+      return;
+    }
+    addText("Press any key", { 
+        x: 3,
+        y: 9,
+        color: "2"
+    })
+}
+
+function gameOver() {
+    gameIsOver = true
+    setMap("x")
+    clearText()
+    addText("Game Over", { 
+        x: 5,
+        y: 7,
+        color: "2"
+    })
+
+    setTimeout(() => {
+        pressAnyKey()
+    }, 2500);
+}
+
+function youWin() {
+  gameIsOver = true
+  setMap("x")
+  clearText()
+  addText("You Win", { 
+      x: 5,
+      y: 7,
+      color: "2"
+  })
+
+  setTimeout(() => {
+      pressAnyKey()
+  }, 2500);
+}
+
+function checkWin(level) {
+    for (let i = 0; i < level.length; i++) {
+        for (let j = 0; j < level[i].length; j++) {
+            if (level[i][j] != level[0][0]) {
+                return false
+            }
+        }
+    }
+    youWin()
+}
+
+function buttonPressed(input, gameIsOver, level = []) {
+    if (gameIsOver == false) {
+      if (input == "w") {
+          changeFlood("y")
+          checkWin(level)
+      } else if (input == "a") {
+          changeFlood("b")
+          checkWin(level)
+      } else if (input == "s") {
+          changeFlood("g")
+          checkWin(level)
+      } else if (input == "d") {
+          changeFlood("r")
+          checkWin(level)
+      } else if (input == "i" || input == "j" || input == "k" || input == "l") {
+          resetGame()
+      }
+    } else {
         resetGame()
     }
 }
@@ -261,39 +339,39 @@ function resetGame() {
     drawPlayerMap(playerMap, level, "g")
     steps = Math.floor(Math.random() * 10 + 10)
     drawLevel(level, steps)
-    
+    gameIsOver = false
 }
 
 onInput("w", () => {
-    buttonPressed("y")
+    buttonPressed("w", gameIsOver, level)
 })
 
 onInput("a", () => {
-    buttonPressed("b")
+    buttonPressed("a", gameIsOver, level)
 })
 
 onInput("s", () => {
-    buttonPressed("g")
+    buttonPressed("s", gameIsOver, level)
 })
 
 onInput("d", () => {
-    buttonPressed("r")
+    buttonPressed("d", gameIsOver, level)
 })
 
 onInput("i", () => {
-    resetGame()
+    buttonPressed("i", gameIsOver)
 })
 
 onInput("j", () => {
-    resetGame()
+    buttonPressed("j", gameIsOver)
 })
 
 onInput("k", () => {
-    resetGame()
+    buttonPressed("k", gameIsOver)
 })
 
 onInput("l", () => {
-    resetGame()
+    buttonPressed("l", gameIsOver)
 })
 
 afterInput(() => {
