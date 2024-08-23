@@ -6,7 +6,7 @@
 
 Flood is a game made for [Hack Club's Sprig game console](https://sprig.hackclub.com/) and [Hack Club Arcade](https://hackclub.com/arcade/). This is a recreation on the classic game Flood It.
 
-[Play Simon Sees on Sprig](https://sprig.hackclub.com/~/UKMoUYIRwzXm8cVEa2ZJ)
+The game has not been uploaded yet, to play copy the code into your sprig editor.
 
 ## How to Play
 
@@ -17,4 +17,4 @@ Flood is a game made for [Hack Club's Sprig game console](https://sprig.hackclub
 - **S**: Change the flood color to **Green**.
 - **D**: Change the flood color to **Red**.
 
-Use the corresponding keys to flood the grid with the chosen color and aim to match the entire grid with a single color.
+Use the corresponding keys to flood the grid with the chosen color and aim to match the entire grid with a single color within the allocated moves.
