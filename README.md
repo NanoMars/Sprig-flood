@@ -6,7 +6,7 @@
 
 Flood is a game made for [Hack Club's Sprig game console](https://sprig.hackclub.com/) and [Hack Club Arcade](https://hackclub.com/arcade/). This is a recreation on the classic game Flood It.
 
-The game has not been uploaded yet, to play copy the code into your sprig editor.
+The game has not been uploaded yet, to play copy [the code](/flood.js/) into your [sprig editor.](https://sprig.hackclub.com/editor)
 
 ![game](https://cloud-2e652jjnr-hack-club-bot.vercel.app/0image.png)
 
