@@ -8,9 +8,9 @@ Flood is a game made for [Hack Club's Sprig game console](https://sprig.hackclub
 
 The game has not been uploaded yet, to play copy the code into your sprig editor.
 
-## How to Play
+![game](https://cloud-2e652jjnr-hack-club-bot.vercel.app/0image.png)
 
-## Controls
+## How to play
 
 - **W**: Change the flood color to **Yellow**.
 - **A**: Change the flood color to **Blue**.
